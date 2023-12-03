@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "CheckoutHistory";
+}
+
+@model List<OrderViewModel>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ödeme geçmişi</h5>
+                @if (Model.Any())
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Sipariş no</th>
+                                <th>Tarih</th>
+                                <th>Detay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.CreatedDate.ToShortDateString()</td>
+                                    <td>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <th>Kurs</th>
+                                                <th class="text-end">Fiyat</th>
+                                            </tr>
+                                            @foreach (var item2 in item.OrderItems)
+                                            {
+                                                <tr>
+                                                    <td>@item2.ProductName</td>
+                                                    <td class="text-end">@item2.Price TL</td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <th class="text-end">Toplam tutar</th>
+                                                <th class="text-end">@item.OrderItems.Sum(x=>x.Price) TL</th>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }else
+                {
+                     <div class="alert alert-info">
+                         Satın aldığınız bir kursunuz bulunmamaktadır...
+                     </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
